@@ -1,9 +1,11 @@
 # Northcoders News API
+<br />
+<br />
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+## Setting up environment
+To set up environment you will need to create two files.
+ - **.env.test**
+ - **.env.development**
 
+Inside both of these files you will need to add the following code **"PGDATABASE=*database_name*"**
 
-
---- 
-
-This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
