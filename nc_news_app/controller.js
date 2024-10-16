@@ -1,4 +1,4 @@
-const { fetchTopics, fetchArticles } = require("./model");
+const { fetchTopics, fetchArticles, fetchAllArticles } = require("./model");
 
 function getTopics(request, response) {
   fetchTopics().then((topics) => {
@@ -17,4 +17,16 @@ function getArticles(request, response, next) {
     });
 }
 
-module.exports = { getTopics, getArticles };
+function getAllArticles(request, response, next){
+  
+  fetchAllArticles()
+  .then((articles)=>{
+    response.status(200).send({articles});
+  })
+  .catch((err)=>{
+    console.log(err);
+    next(err)
+  })
+}
+
+module.exports = { getTopics, getArticles, getAllArticles };
