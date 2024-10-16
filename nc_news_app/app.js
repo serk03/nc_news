@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { getTopics, getArticles } = require("../nc_news_app/controller");
+const { getTopics, getArticles, getAllArticles } = require("../nc_news_app/controller");
 const endpoints = require("../endpoints.json");
 
 app.get("/api/topics", getTopics);
@@ -10,6 +10,8 @@ app.get("/api", (request, response) => {
 });
 
 app.get("/api/articles/:article_id", getArticles);
+
+app.get("/api/articles", getAllArticles);
 
 app.use((err, req, res, next) => {
   if (err.code === "22P02") {
@@ -26,5 +28,8 @@ app.use((err, request, response, next) => {
     response.status(500).send({ msg: "Internal Server Error" });
   }
 });
+
+
+
 
 module.exports = app;
