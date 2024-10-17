@@ -40,5 +40,21 @@ function fetchAllArticles(){
   })
 }
 
+function fetchArticleComments(id){
+ //get comment_id, votes, created_at, author, body, article_id
 
-module.exports = { fetchTopics, fetchArticles, fetchAllArticles };
+  //bind comments to article by article_id
+  //should return most recent comments first.
+  // join articles and comment table.
+
+    const queryString = `
+    SELECT *  FROM comments
+    WHERE article_id =$1
+    ORDER BY created_at DESC
+    `
+  return db.query(queryString,[id]).then(({rows})=>{
+     return rows;
+  })
+  }
+
+module.exports = { fetchTopics, fetchArticles, fetchAllArticles, fetchArticleComments };
