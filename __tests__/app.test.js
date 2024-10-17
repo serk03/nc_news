@@ -4,6 +4,7 @@ const seed = require("../db/seeds/seed");
 const app = require("../nc_news_app/app");
 const data = require("../db/data/test-data/index");
 const endpoints = require("../endpoints.json");
+require('jest-sorted');
 
 beforeEach(() => {
   return seed(data);
@@ -96,3 +97,55 @@ describe("/api/articles",()=>{
 })
 })
 
+describe("/api/articles/:article_id/comments",()=>{
+  test("GET 200: returns specifc article with all related comments",()=>{
+     return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({body})=>{
+           expect(body.comments).toHaveLength(11);
+            body.comments.forEach((comment) => {
+          expect(typeof comment.body).toBe("string");
+          expect(typeof comment.votes).toBe("number");
+          expect(typeof comment.author).toBe("string");
+          expect(typeof comment.article_id).toBe("number");
+          expect(typeof comment.created_at).toBe("string");
+         
+        })
+      })
+  })
+  test("GET 200: returns specifc article with all related comments starting with most recent",()=>{
+  return request(app)
+  .get("/api/articles/1/comments")
+  .expect(200)
+  .then(({body})=>{
+    expect(body.comments).toBeSortedBy('created_at', {
+    descending: true,
+  })
+})
+  })
+  // 404 - ID does not exist
+  //check if the article exist, using existing function
+  // if not throw error if does not exist,
+  // if article exist __then call article
+  
+  //if given invalid id, throw error
+   test("GET 404: Returns error if article does not exist", () => {
+      return request(app)
+        .get("/api/articles/999/comments")
+        .expect(404)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.msg).toBe("article not found");
+        });
+    });
+      test("GET 400: Passed bad article ID", () => {
+      return request(app)
+        .get("/api/articles/notAnID/comments")
+        .expect(400)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.msg).toBe("Bad Request");
+      })
+    });
+})
