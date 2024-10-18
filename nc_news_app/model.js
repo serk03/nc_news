@@ -6,7 +6,7 @@ function fetchTopics() {
   });
 }
 
-function fetchArticles(id) {
+function fetchArticleById(id) {
   return db
     .query(`SELECT * FROM articles WHERE article_id=$1`, [id])
     .then(({ rows }) => {
@@ -57,4 +57,20 @@ function fetchArticleComments(id){
   })
   }
 
-module.exports = { fetchTopics, fetchArticles, fetchAllArticles, fetchArticleComments };
+
+  function postArticleComments(id, newItem){
+    const queryString = `
+    INSERT INTO comments
+    (body, author, article_id )
+    VALUES($1,$2,$3)
+    RETURNING *
+    `
+    return db.query(queryString,[newItem.body,newItem.username,id])
+    .then(({rows})=>{
+     
+      return rows;
+    })
+
+  }
+
+module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments };

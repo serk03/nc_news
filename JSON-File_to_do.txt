@@ -1,0 +1,8 @@
+/*GET api/articles/:article_id
+//POST /api/articles/:article_id/comments
+//extra property 
+//exampleRequest
+// {
+//       username: "butter_bridge",
+//       body: "Hello New World"
+// }
