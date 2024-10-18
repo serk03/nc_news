@@ -135,7 +135,6 @@ describe("/api/articles/:article_id/comments",()=>{
         .get("/api/articles/999/comments")
         .expect(404)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.msg).toBe("article not found");
         });
     });
@@ -144,8 +143,100 @@ describe("/api/articles/:article_id/comments",()=>{
         .get("/api/articles/notAnID/comments")
         .expect(400)
         .then(({ body }) => {
-          console.log(body);
           expect(body.msg).toBe("Bad Request");
       })
     });
 })
+
+describe("/api/articles/:article_id/comments",()=>{
+  test("Should add a comment to an article and return the posted comment",()=>{
+    const newItem = {
+      username:"butter_bridge",
+      body:"Hello New World"
+    }
+    return request(app)
+    .post("/api/articles/1/comments")
+    .send(newItem)  
+    .expect(200)
+    .then(({body})=>{
+      expect(body)
+        body.comments.forEach((comment) => {
+        expect(comment.body).toEqual("Hello New World");
+        expect(comment.votes).toEqual(0);
+        expect(comment.author).toEqual("butter_bridge");
+        expect(comment.article_id).toEqual(1);
+        expect(typeof comment.created_at).toBe("string");
+      })
+    }) 
+  })
+  /// Tests to check for
+    // invalid articleID = 400
+    // article not found = 404
+    // Username not found = 404
+    // empty object = 400 bad request
+    // Bad request body is null
+    test("POST 400: Passed invalid article ID", () => {
+      const newItem = {
+      username:"butter_bridge",
+      body:"Hello New World"
+    }
+      return request(app)
+        .post("/api/articles/notAnID/comments")
+        .send(newItem)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+      })
+    });
+
+    test("POST 404: Returns error if article does not exist", () => {
+      const newItem = {
+      username:"butter_bridge",
+      body:"Hello New World"
+    }
+      return request(app)
+        .post("/api/articles/999/comments")
+        .send(newItem)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("article not found");
+        });
+    });
+
+    test("POST 404: Returns error if username is not found", () => {
+      const newItem = {
+      username:"butter_bug",
+      body:"Hello New World"
+    }
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(newItem)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("username not found");
+        });
+    });
+    test("POST 400: Returns error if passed empty object", () => {
+      const newItem = {}
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(newItem)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+      })
+    });
+    test.only("POST 400: Returns error if passed object with NULL as body", () => {
+        const newItem = {
+        username:"butter_bug",
+        body: null
+    }
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(newItem)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+      })
+    });
+  })
