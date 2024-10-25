@@ -69,6 +69,7 @@ function fetchArticleComments(id){
     .then(({rows})=>{
       return rows;
     })
+
   }
 
   function patchArticleById(id, newArticle){
@@ -84,7 +85,18 @@ function fetchArticleComments(id){
         return rows[0];
     })
   }
+ function deleteComment(commentId){
+    const queryString = `
+    DELETE FROM comments
+    WHERE $1 = commentId
+    RETURNING *;
+    `
+    return db.query(queryString)
+    .then(({rows})=>{
+      return rows;
+    })
+  } 
+
+module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments, deleteComment };
 
 
-
-module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments,patchArticleById };

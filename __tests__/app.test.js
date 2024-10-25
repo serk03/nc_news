@@ -241,6 +241,9 @@ describe("/api/articles/:article_id/comments",()=>{
     });
   })
 
+
+
+
   describe("/api/articles/:article_id",()=>{
     test("PATCH 200: Returns a given article by article id with votes increased",()=>{
       const newVotes ={inc_votes: 1};
@@ -314,4 +317,17 @@ describe("/api/articles/:article_id/comments",()=>{
     });
 })
 
+describe("/api/comments/:comment_id",()=>{
+  test("DELETE 200: Removes a comments by a given comment_id",()=>{
+    // return request(app)
+    console.log(app);
+    
+    // return request(app)
+    // .delete("/api/comments/1")
+    // .expect(204)
+    // .then(({body})=>{
+    //   expect(body.comment).toEqual()
+    // })
+  })
+})
 
