@@ -67,12 +67,25 @@ function fetchArticleComments(id){
     `
     return db.query(queryString,[newItem.body,newItem.username,id])
     .then(({rows})=>{
-     
       return rows;
     })
+
   }
 
-  function deleteComment(commentId){
+  function patchArticleById(id, newArticle){
+    const queryString = `
+    UPDATE articles
+    SET
+    votes = votes+ $2
+    WHERE article_id = $1
+    RETURNING *;
+    `
+    return db.query(queryString,[id, newArticle.inc_votes])
+    .then(({rows})=>{
+        return rows[0];
+    })
+  }
+ function deleteComment(commentId){
     const queryString = `
     DELETE FROM comments
     WHERE $1 = commentId
@@ -85,3 +98,5 @@ function fetchArticleComments(id){
   } 
 
 module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments, deleteComment };
+
+

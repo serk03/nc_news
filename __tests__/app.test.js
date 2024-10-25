@@ -149,7 +149,7 @@ describe("/api/articles/:article_id/comments",()=>{
 })
 
 describe("/api/articles/:article_id/comments",()=>{
-  test("Should add a comment to an article and return the posted comment",()=>{
+  test("GET 200: Should add a comment to an article and return the posted comment",()=>{
     const newItem = {
       username:"butter_bridge",
       body:"Hello New World"
@@ -240,6 +240,83 @@ describe("/api/articles/:article_id/comments",()=>{
       })
     });
   })
+
+
+
+
+  describe("/api/articles/:article_id",()=>{
+    test("PATCH 200: Returns a given article by article id with votes increased",()=>{
+      const newVotes ={inc_votes: 1};
+      return request(app)
+      .patch("/api/articles/1")
+      .send(newVotes)
+      .expect(200)
+      .then(({body})=>{
+         expect(body.article).toEqual({
+          article_id: 1,
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at: "2020-07-09T20:11:00.000Z",
+          votes: 101,
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+        });
+      })   
+    })
+    test("PATCH 400: Returns error if passed empty object",()=>{
+      const newVotes ={};
+      return request(app)
+      .patch("/api/articles/1")
+      .send(newVotes)
+       .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+    })
+  })
+   test("PATCH 400: Returns error if passed a string data type", () => {
+      const newVotes ="inc_votes: 1";
+      return request(app)
+        .patch("/api/articles/1")
+        .send(newVotes)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+        });
+    });
+   test("PATCH 400: Returns error if passed a null data type", () => {
+      const newVotes ={inc_votes: null};
+      return request(app)
+        .patch("/api/articles/1")
+        .send(newVotes)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+        });
+    });
+     test("PATCH 400: Passed invalid article ID", () => {
+      const newVotes ={inc_votes: 1};
+      return request(app)
+        .patch("/api/articles/notAnID")
+        .send(newVotes)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request");
+      })
+    });
+    xtest("PATCH 404: Returns error if username is not found", () => {
+      const newVotes ={inc_votes: 1};
+      return request(app)
+        .patch("/api/articles/9999")
+        .send(newVotes)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("username not found");
+        });
+    });
+})
+
 describe("/api/comments/:comment_id",()=>{
   test("DELETE 200: Removes a comments by a given comment_id",()=>{
     // return request(app)
@@ -253,3 +330,4 @@ describe("/api/comments/:comment_id",()=>{
     // })
   })
 })
+
