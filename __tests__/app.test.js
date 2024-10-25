@@ -226,7 +226,7 @@ describe("/api/articles/:article_id/comments",()=>{
           expect(body.msg).toBe("Bad Request");
       })
     });
-    test.only("POST 400: Returns error if passed object with NULL as body", () => {
+    test("POST 400: Returns error if passed object with NULL as body", () => {
         const newItem = {
         username:"butter_bug",
         body: null
@@ -240,3 +240,16 @@ describe("/api/articles/:article_id/comments",()=>{
       })
     });
   })
+describe("/api/comments/:comment_id",()=>{
+  test("DELETE 200: Removes a comments by a given comment_id",()=>{
+    // return request(app)
+    console.log(app);
+    
+    // return request(app)
+    // .delete("/api/comments/1")
+    // .expect(204)
+    // .then(({body})=>{
+    //   expect(body.comment).toEqual()
+    // })
+  })
+})

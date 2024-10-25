@@ -70,7 +70,18 @@ function fetchArticleComments(id){
      
       return rows;
     })
-
   }
 
-module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments };
+  function deleteComment(commentId){
+    const queryString = `
+    DELETE FROM comments
+    WHERE $1 = commentId
+    RETURNING *;
+    `
+    return db.query(queryString)
+    .then(({rows})=>{
+      return rows;
+    })
+  } 
+
+module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments, deleteComment };
