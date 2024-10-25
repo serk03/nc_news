@@ -1,5 +1,5 @@
 const comments = require("../db/data/test-data/comments");
-const { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments,postArticleComments } = require("./model");
+const { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments,postArticleComments, patchArticleById } = require("./model");
 
 function getTopics(request, response) {
   fetchTopics().then((topics) => {
@@ -25,7 +25,6 @@ function getAllArticles(request, response, next){
     response.status(200).send({articles});
   })
   .catch((err)=>{
-
     next(err)
   })
 }
@@ -56,9 +55,26 @@ function addArticleComments(request, response, next){
     response.status(200).send({comments})
   })
   .catch((err)=>{
-    console.log(err);
     next(err)
   })
 }
 
-module.exports = { getTopics, getArticleById, getAllArticles, getArticleComments,addArticleComments };
+function updateArticleByArticleId(request, response, next){
+  const articleId = request.params.article_id;
+  const newArticle = request.body;
+  fetchArticleById(articleId)
+  .then(()=>{
+    return patchArticleById(articleId, newArticle)
+  })
+  .then((article)=>{
+    response.status(200).send({article})
+  })
+  .catch((err)=>{
+    // console.log(err);
+    next(err)
+  })
+}
+
+
+
+module.exports = { getTopics, getArticleById, getAllArticles, getArticleComments,addArticleComments,updateArticleByArticleId };
