@@ -305,29 +305,24 @@ describe("/api/articles/:article_id/comments",()=>{
           expect(body.msg).toBe("Bad Request");
       })
     });
-    xtest("PATCH 404: Returns error if username is not found", () => {
+    test("PATCH 404: Returns error if username is not found", () => {
       const newVotes ={inc_votes: 1};
       return request(app)
         .patch("/api/articles/9999")
         .send(newVotes)
         .expect(404)
         .then(({ body }) => {
-          expect(body.msg).toBe("username not found");
+          expect(body.msg).toBe("article not found");
         });
     });
 })
 
 describe("/api/comments/:comment_id",()=>{
   test("DELETE 200: Removes a comments by a given comment_id",()=>{
-    // return request(app)
-    console.log(app);
-    
-    // return request(app)
-    // .delete("/api/comments/1")
-    // .expect(204)
-    // .then(({body})=>{
-    //   expect(body.comment).toEqual()
-    // })
-  })
+    return request(app)
+    .delete("/api/comments/1")
+    .expect(204)
+    })
+  
 })
 

@@ -88,15 +88,15 @@ function fetchArticleComments(id){
  function deleteComment(commentId){
     const queryString = `
     DELETE FROM comments
-    WHERE $1 = commentId
+    WHERE comment_Id = $1
     RETURNING *;
     `
-    return db.query(queryString)
-    .then(({rows})=>{
-      return rows;
+    return db.query(queryString,[commentId])
+    .then(({rowCount})=>{
+      return rowCount;
     })
   } 
 
-module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments, deleteComment };
+module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments,patchArticleById, deleteComment };
 
 

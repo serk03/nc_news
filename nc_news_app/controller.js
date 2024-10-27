@@ -1,6 +1,6 @@
 const comments = require("../db/data/test-data/comments");
 
-const { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments,postArticleComments, deleteComment } = require("./model");
+const { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments,postArticleComments,patchArticleById, deleteComment } = require("./model");
 
 
 function getTopics(request, response) {
@@ -74,24 +74,23 @@ function updateArticleByArticleId(request, response, next){
 
   })
   .catch((err)=>{
-    // console.log(err);
     next(err)
   })
 }
 
 function deleteCommentByCommentId(request, response, next){
-  const commentId = request.params.commentId;
-  deleteComment(commentId)
-  .then((comments)=>{
-    response.status(200).send()
+  const comment_Id = request.params.commentId;
+  deleteComment(comment_Id)
+  .then(()=>{
+    response.status(204).send()
   })
   .catch((err)=>{
-    // console.log(err);
+    console.log(err);
     next(err)
   })
 }
 
 
 
-module.exports = { getTopics, getArticleById, getAllArticles, getArticleComments,addArticleComments, deleteCommentByCommentId };
+module.exports = { getTopics, getArticleById, getAllArticles, getArticleComments,addArticleComments,updateArticleByArticleId, deleteCommentByCommentId };
 

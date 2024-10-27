@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const endpoints = require("../endpoints.json");
 
-const { getTopics, getArticleById, getAllArticles, getArticleComments, addArticleComments, deleteCommentByCommentId } = require("../nc_news_app/controller");
+const { getTopics, getArticleById, getAllArticles, getArticleComments, addArticleComments,updateArticleByArticleId, deleteCommentByCommentId } = require("../nc_news_app/controller");
 
 app.use(express.json())
 
