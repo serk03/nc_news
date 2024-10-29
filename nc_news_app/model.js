@@ -105,8 +105,10 @@ function fetchArticleComments(id){
       }
      
     })
-  } 
+  }
+  
+  function fetchAllUsers(){}
 
-module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments,patchArticleById, deleteComment };
+module.exports = { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments, postArticleComments,patchArticleById, deleteComment, fetchAllUsers };
 
 
