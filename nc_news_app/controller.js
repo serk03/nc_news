@@ -79,7 +79,7 @@ function updateArticleByArticleId(request, response, next){
 }
 
 function deleteCommentByCommentId(request, response, next){
-  const comment_Id = request.params.commentId;
+  const comment_Id = request.params.comment_id;
   deleteComment(comment_Id)
   .then(()=>{
     response.status(204).send()

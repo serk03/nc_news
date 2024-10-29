@@ -320,9 +320,24 @@ describe("/api/articles/:article_id/comments",()=>{
 describe("/api/comments/:comment_id",()=>{
   test("DELETE 200: Removes a comments by a given comment_id",()=>{
     return request(app)
-    .delete("/api/comments/1")
+    .delete("/api/comments/2")
     .expect(204)
     })
-  
+  test("DELETE 404: Returns error if commentID is not found",()=>{
+    return request(app)
+    .delete("/api/comments/9999")
+    .expect(404)
+    .then(({body})=>{
+      expect(body.msg).toBe("article not found");
+    })
+  })
+  test("DELETE 400: Returns error if commentID is invalid",()=>{
+    return request(app)
+    .delete("/api/comments/notAnId")
+    .expect(400)
+    .then(({body})=>{
+     expect(body.msg).toBe("Bad Request");
+  })
+  })
 })
 

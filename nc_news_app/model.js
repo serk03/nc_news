@@ -88,12 +88,22 @@ function fetchArticleComments(id){
  function deleteComment(commentId){
     const queryString = `
     DELETE FROM comments
-    WHERE comment_Id = $1
+    WHERE comment_id = $1
     RETURNING *;
     `
+    // const queryString = `
+    //   SELECT FROM comments
+    //   WHERE comment_id = $1
+    // `
+
     return db.query(queryString,[commentId])
-    .then(({rowCount})=>{
-      return rowCount;
+    .then((response)=>{
+      // console.log(response, commentId);
+      const rowCount = response.rowCount;
+      if(rowCount===0){
+        return Promise.reject({status:404, msg: "article not found"});
+      }
+     
     })
   } 
 
