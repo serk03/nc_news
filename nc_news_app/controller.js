@@ -89,7 +89,10 @@ function deleteCommentByCommentId(request, response, next){
   })
 }
 
-function getAllUsers(){}
+function getAllUsers(request, response){
+  console.log(Object.keys(request));
+  //  getAllUsers(request){}
+}
 
 
 

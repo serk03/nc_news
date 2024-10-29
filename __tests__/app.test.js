@@ -342,7 +342,12 @@ describe("/api/comments/:comment_id",()=>{
 })
 
 describe("/api/users",()=>{
-  test("",()=>{
-    
+  test("GET 200: Return all users",()=>{
+    return(app)
+    .get("/api/users")
+    // .expect(200)
+    // .then(({body})=>{
+    //   expect(body.msg).toBe()
+    // })
   })
 })
