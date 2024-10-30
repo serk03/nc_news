@@ -21,12 +21,14 @@ function getArticleById(request, response, next) {
 }
 
 function getAllArticles(request, response, next){
-  
-  fetchAllArticles()
+  const sortBy = request.query.sort_by;
+  console.log(sortBy);  
+  fetchAllArticles(sortBy)
   .then((articles)=>{
     response.status(200).send({articles});
   })
   .catch((err)=>{
+
     next(err)
   })
 }
@@ -90,9 +92,11 @@ function deleteCommentByCommentId(request, response, next){
 }
 
 function getAllUsers(request, response){
-  console.log(Object.keys(request));
-  //  getAllUsers(request){}
+  fetchAllUsers().then((users) => {
+    response.status(200).send({ users });
+  });
 }
+
 
 
 

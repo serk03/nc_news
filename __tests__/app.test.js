@@ -95,6 +95,15 @@ describe("/api/articles",()=>{
         })
   })
 })
+
+  test("GET 200: Sort articles by valid column",()=>{
+    return request(app)
+      .get("/api/articles?sort_by=article_id")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toBeSortedBy("article_id")
+      })
+  })
 })
 
 describe("/api/articles/:article_id/comments",()=>{
@@ -343,11 +352,18 @@ describe("/api/comments/:comment_id",()=>{
 
 describe("/api/users",()=>{
   test("GET 200: Return all users",()=>{
-    return(app)
-    .get("/api/users")
-    // .expect(200)
-    // .then(({body})=>{
-    //   expect(body.msg).toBe()
-    // })
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.users).toHaveLength(4);
+        body.users.forEach((user) => {
+          expect(typeof user.username).toBe("string");
+          expect(typeof user.name).toBe("string");
+          expect(typeof user.avatar_url).toBe("string");
+        });
+      });
   })
 })
+
+
