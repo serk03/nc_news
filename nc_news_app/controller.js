@@ -22,13 +22,15 @@ function getArticleById(request, response, next) {
 
 function getAllArticles(request, response, next){
   const sortBy = request.query.sort_by;
-  console.log(sortBy);  
-  fetchAllArticles(sortBy)
+  const order = request.query.order;
+  const topic = request.query.topic; 
+  console.log(topic); 
+  fetchAllArticles(sortBy, order, topic)
   .then((articles)=>{
     response.status(200).send({articles});
   })
   .catch((err)=>{
-
+    // console.log(err);
     next(err)
   })
 }

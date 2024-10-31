@@ -22,18 +22,37 @@ function fetchArticleById(id) {
     });
 }
 
-function fetchAllArticles(sortBy = "topic"){
+function fetchAllArticles(sortBy = "created_at", order = "ASC"){
+ 
   //get author, title, article_id, topic, created_at, votes, article_img_url, comment_count
   //bind comment by to article by article_id
   //count (how many comments there are) by counting comment_id
   // join articles and comment table.
 
-  const queryString = `
+  // const queryString = `
+  //   SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.comment_id):: INT AS comment_count
+  //   FROM articles
+  //   LEFT JOIN comments ON articles.article_id = comments.article_id 
+  //   GROUP BY articles.article_id
+  //   ORDER BY ${sortBy} ${order}
+  // `
+  // return db.query(queryString)
+  // .then(({rows})=>{
+  //   return rows;
+  // })
+    const queryValues= [];
+    let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.comment_id):: INT AS comment_count
+    FROM articles`;
+    
+
+
+
+    let queryString = `
     SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.comment_id):: INT AS comment_count
     FROM articles
     LEFT JOIN comments ON articles.article_id = comments.article_id 
     GROUP BY articles.article_id
-    ORDER BY ${sortBy}
+    ORDER BY ${sortBy} ${order}
   `
   return db.query(queryString)
   .then(({rows})=>{

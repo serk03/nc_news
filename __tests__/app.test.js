@@ -104,6 +104,36 @@ describe("/api/articles",()=>{
         expect(body.articles).toBeSortedBy("article_id")
       })
   })
+  test("GET 400: Returns error if passed an invalid column",()=>{
+    return request(app)
+      .get("/api/articles?sort_by=article_ii")
+       .expect(400)
+        .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      })
+  })
+  //Perhaps look at returning if passed back invalid data type
+   test("GET 200: New Test",()=>{
+    return request(app)
+      .get("/api/articles?order=DESC")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toBeSorted({ descending: true })
+      })
+  })
+
+  xtest("GET 200: filters an article by a specific topic",()=>{
+      return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then((body)=>{
+        expect(body.articles).toHaveLength(12);
+        body.articles.forEach((article) => {
+          expect(article.topic).toBe("mitch");
+        })
+        
+      })
+  })
 })
 
 describe("/api/articles/:article_id/comments",()=>{

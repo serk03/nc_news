@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
     res.status(400).send({ msg: "Bad Request" });
   }else if (err.code === "23503"){
     res.status(404).send({ msg: "username not found" });
-  }else if(err.code === "23502"){
+  }else if(err.code === "23502" || err.code==="42703"){
      res.status(400).send({ msg: "Bad Request" });
   }
    else {
