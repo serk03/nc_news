@@ -24,7 +24,7 @@ function getAllArticles(request, response, next){
   const sortBy = request.query.sort_by;
   const order = request.query.order;
   const topic = request.query.topic; 
-  console.log(topic); 
+  // console.log(topic); 
   fetchAllArticles(sortBy, order, topic)
   .then((articles)=>{
     response.status(200).send({articles});

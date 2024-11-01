@@ -122,16 +122,24 @@ describe("/api/articles",()=>{
       })
   })
 
-  xtest("GET 200: filters an article by a specific topic",()=>{
+  test("GET 200: filters an article by a specific topic",()=>{
       return request(app)
       .get("/api/articles?topic=mitch")
       .expect(200)
-      .then((body)=>{
+      .then(({body})=>{
+        // console.log(body.articles);
         expect(body.articles).toHaveLength(12);
         body.articles.forEach((article) => {
           expect(article.topic).toBe("mitch");
         })
-        
+      })
+  })
+  test("GET 200: Returns an error if passed a topic which does not exist",()=>{
+      return request(app)
+      .get("/api/articles?topic=dogs")
+      .expect(200)
+      .then(({body})=>{
+        expect(body.msg).toBe("article not found")
       })
   })
 })
