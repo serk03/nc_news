@@ -112,7 +112,6 @@ function fetchArticleComments(id){
 
     return db.query(queryString,[commentId])
     .then((response)=>{
-      // console.log(response, commentId);
       const rowCount = response.rowCount;
       if(rowCount===0){
         return Promise.reject({status:404, msg: "article not found"});

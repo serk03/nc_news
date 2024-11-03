@@ -91,7 +91,6 @@ describe("/api/articles",()=>{
       .get("/api/articles/")
       .expect(200)
       .then(({ body }) => {
-        // console.log(body);
         expect(body.articles).toHaveLength(13);
         body.articles.forEach((article) => {
           expect(typeof article.author).toBe("string");
@@ -137,7 +136,6 @@ describe("/api/articles",()=>{
       .get("/api/articles?topic=mitch")
       .expect(200)
       .then(({body})=>{
-        // console.log(body.articles);
         expect(body.articles).toHaveLength(12);
         body.articles.forEach((article) => {
           expect(article.topic).toBe("mitch");
