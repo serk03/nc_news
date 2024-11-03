@@ -48,6 +48,7 @@ describe(" /api/articles/:article_id", () => {
         expect(body.article).toEqual({
           article_id: 1,
           title: "Living in the shadow of a great man",
+          comment_count: "11",
           topic: "mitch",
           author: "butter_bridge",
           body: "I find this existence challenging",
@@ -74,6 +75,14 @@ describe(" /api/articles/:article_id", () => {
         expect(body.msg).toBe("article not found");
       });
   });
+  test("GET 200: Return the total count of comments for a given article id",()=>{
+    return request(app)
+    .get("/api/articles/3")
+    .expect(200)
+    .then(({body})=>{
+      expect(body.article.comment_count).toBe("2")
+    })
+  })
 });
 
 describe("/api/articles",()=>{
@@ -82,6 +91,7 @@ describe("/api/articles",()=>{
       .get("/api/articles/")
       .expect(200)
       .then(({ body }) => {
+        // console.log(body);
         expect(body.articles).toHaveLength(13);
         body.articles.forEach((article) => {
           expect(typeof article.author).toBe("string");

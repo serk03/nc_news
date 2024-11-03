@@ -1,3 +1,4 @@
+const e = require("express");
 const comments = require("../db/data/test-data/comments");
 
 const { fetchTopics, fetchArticleById, fetchAllArticles, fetchArticleComments,postArticleComments,patchArticleById, deleteComment, fetchAllUsers } = require("./model");
@@ -23,14 +24,12 @@ function getArticleById(request, response, next) {
 function getAllArticles(request, response, next){
   const sortBy = request.query.sort_by;
   const order = request.query.order;
-  const topic = request.query.topic; 
-  // console.log(topic); 
+  const topic = request.query.topic;  
   fetchAllArticles(sortBy, order, topic)
   .then((articles)=>{
     response.status(200).send({articles});
   })
   .catch((err)=>{
-    // console.log(err);
     next(err)
   })
 }
